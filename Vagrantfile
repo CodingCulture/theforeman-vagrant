@@ -14,4 +14,5 @@ Vagrant.configure(2) do |config|
   config.vm.provision "ansible" do |ansible|
     ansible.playbook = "src/ansible/vagrant.yml"
   end
+
 end
