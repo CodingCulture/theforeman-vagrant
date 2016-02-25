@@ -1,8 +1,12 @@
 ---
-- hosts: mgmt-foreman
-  tasks: 
+- hosts: all
+  remote_user: vagrant
+  become: true
+  roles:
+    - ubuntu
+  tasks:
     - name: Installs certificates ca
-	  apt:
+      apt:
         name: ca-certificates
         state: latest
     - name: Get foreman installer
@@ -10,19 +14,19 @@
         url: https://apt.puppetlabs.com/puppetlabs-release-precise.deb
         dest: /tmp/puppetlabs-release-precise.deb
     - name: Installs the puppet installer
-      apt: 
+      apt:
         deb: /tmp/puppetlabs-release-precise.deb
     - name: Registers the foreman repos
       apt_repository:
         repo: 'deb http://deb.theforeman.org/ precise 1.10'
         state: present
+    - name: Inserts the foreman apt_key
       apt_key:
-        url: http://deb.theforeman.org/pubkey.gpg 
+        url: http://deb.theforeman.org/pubkey.gpg
+    - name: Update apt cache
       apt:
         update_cache: yes
     - name: Installs foreman
       apt:
         name: foreman-installer
-        state: latest 
-    
-    
+        state: latest
