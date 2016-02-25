@@ -1,0 +1,9 @@
+---
+- name: Installs Python SP
+    apt: python-software-properties
+    state: present
+
+- name: Installs VIM
+  apt:
+    name: vim
+    state: present

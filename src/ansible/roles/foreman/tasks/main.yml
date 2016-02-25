@@ -1,0 +1,26 @@
+---
+- name: Installs certificates ca
+  apt:
+    name: ca-certificates
+    state: latest
+- name: Get foreman installer
+  get_url:
+    url: https://apt.puppetlabs.com/puppetlabs-release-precise.deb
+    dest: /tmp/puppetlabs-release-precise.deb
+- name: Installs the puppet installer
+  apt:
+    deb: /tmp/puppetlabs-release-precise.deb
+- name: Registers the foreman repos
+  apt_repository:
+    repo: 'deb http://deb.theforeman.org/ precise 1.10'
+    state: present
+- name: Inserts the foreman apt_key
+  apt_key:
+    url: http://deb.theforeman.org/pubkey.gpg
+- name: Update apt cache
+  apt:
+    update_cache: yes
+- name: Installs foreman
+  apt:
+    name: foreman-installer
+    state: latest
